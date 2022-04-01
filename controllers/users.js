@@ -97,9 +97,7 @@ const login = (request, response, next) => {
 };
 
 const signout = (req, res) => {
-  res
-    .cookie('jwt', '')
-    .end();
+  res.status(200).clearCookie('jwt').send({ message: 'Выход' });
 };
 
 module.exports = {

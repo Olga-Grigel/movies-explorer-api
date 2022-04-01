@@ -52,42 +52,6 @@ const createMovie = (request, response, next) => {
     });
 };
 
-// const likeCard = (request, response, next) => {
-//   Card
-//     .findByIdAndUpdate(
-//       request.params.cardId,
-//       { $addToSet: { likes: request.user._id } }, // добавить _id в массив, если его там нет
-//       { new: true },
-//     )
-//     .orFail(new NotFoundError('Нет карточки по заданному ID'))
-//     .then((card) => response.status(201).send(card))
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new CastError('Передан некорректный ID карточки'));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
-
-// const dislikeCard = (request, response, next) => {
-//   Card
-//     .findByIdAndUpdate(
-//       request.params.cardId,
-//       { $pull: { likes: request.user._id } }, // убрать _id из массива
-//       { new: true },
-//     )
-//     .orFail(new NotFoundError('Нет карточки по заданному ID'))
-//     .then((card) => response.status(201).send(card))
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new CastError('Передан некорректный ID карточки'));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
-
 const deleteMovie = (request, response, next) => {
   const { _id } = request.params;
   return Movie
@@ -95,7 +59,7 @@ const deleteMovie = (request, response, next) => {
     .orFail(new NotFoundError('Нет фильма по заданному ID'))
     .then((movie) => {
       if (!movie.owner.equals(request.user._id)) {
-        return next(new ForbiddenError('Нельзя удалить чужoй фильм'));// потом убрать!!!!!
+        return next(new ForbiddenError('Нельзя удалить чужoй фильм'));
       }
       return movie.remove()
         .then(() => response.send({ message: 'Фильм удалён' }));
