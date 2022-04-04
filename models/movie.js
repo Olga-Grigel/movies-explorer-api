@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-// const validator = require('validator');
-const { urlPattern } = require('../config');
+const validator = require('validator');
 
 const movieSchema = new mongoose.Schema(
   {
@@ -28,21 +27,21 @@ const movieSchema = new mongoose.Schema(
       type: String,
       required: true,
       validate: {
-        validator(v) { return urlPattern.test(v); },
+        validator(image) { return validator.isURL(image); },
       },
     },
     trailerLink: {
       type: String,
       required: true,
       validate: {
-        validator(v) { return urlPattern.test(v); },
+        validator(trailerLink) { return validator.isURL(trailerLink); },
       },
     },
     thumbnail: {
       type: String,
       required: true,
       validate: {
-        validator(v) { return urlPattern.test(v); },
+        validator(thumbnail) { return validator.isURL(thumbnail); },
       },
     },
     owner: {

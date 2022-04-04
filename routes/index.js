@@ -12,14 +12,14 @@ const {
 
 router.post('/signin', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required(),
+    email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
 }), login);
 router.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).required().max(30),
-    email: Joi.string().required(),
+    email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
 }), createUser);

@@ -4,7 +4,6 @@ const User = require('../models/user');
 const ConflictError = require('../errors/conflict-error');
 const NotFoundError = require('../errors/not-found-error');
 const CastError = require('../errors/cast-error');
-const UnauthorizedError = require('../errors/unauthorized-error');
 const { secretKey } = require('../config');
 
 const getUserMe = (request, response, next) => {
@@ -13,11 +12,7 @@ const getUserMe = (request, response, next) => {
     .orFail(new NotFoundError('Пользователь не найден'))
     .then((user) => response.status(200).send(user))
     .catch((err) => {
-      if (err.message === 'NotFound') {
-        next(new NotFoundError('Пользователь с таким ID не найден'));
-      } else {
-        next(err);
-      }
+      next(err);
     });
 };
 
@@ -64,6 +59,8 @@ const updateUser = (request, response, next) => {
         next(new NotFoundError('Пользователь с таким ID не найден'));
       } if (err.name === 'ValidationError') {
         next(new CastError('Переданы некорректные данные при создании пользователя'));
+      } if (err.code === 11000) {
+        next(new ConflictError('Пользователь с таким email уже существует'));
       } else {
         next(err);
       }
@@ -86,14 +83,7 @@ const login = (request, response, next) => {
         })
         .send({ data: user.toJSON() });
     })
-    .catch((err) => {
-      // ошибка аутентификации
-      if (err.statusCode === 401) {
-        next(new UnauthorizedError('Неверный email или пароль'));
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
 };
 
 const signout = (req, res) => {

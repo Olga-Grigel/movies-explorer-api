@@ -1,7 +1,7 @@
 {
   "name": "diplom",
   "version": "0.0.1",
-  "description": "",
+  "description": "this project contains a part of the graduation project dedicated to the backend",
   "main": "index.js",
   "scripts": {
     "lint": "npx eslint .",

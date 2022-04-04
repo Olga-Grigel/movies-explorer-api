@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+const validator = require('validator');
 const {
   getMovies,
   createMovie,
   deleteMovie,
 } = require('../controllers/movies');
 const auth = require('../middlewares/auth');
-const { urlPattern } = require('../config');
 
 router.get('/', auth, getMovies);
 
@@ -17,9 +17,24 @@ router.post('/', celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().pattern(urlPattern),
-    trailerLink: Joi.string().required().pattern(urlPattern),
-    thumbnail: Joi.string().required().pattern(urlPattern),
+    image: Joi.string().required().custom((value, helpers) => {
+      if (validator.isURL(value)) {
+        return value;
+      }
+      return helpers.message('Поле заполнено некорректно');
+    }),
+    trailerLink: Joi.string().required().custom((value, helpers) => {
+      if (validator.isURL(value)) {
+        return value;
+      }
+      return helpers.message('Поле заполнено некорректно');
+    }),
+    thumbnail: Joi.string().required().custom((value, helpers) => {
+      if (validator.isURL(value)) {
+        return value;
+      }
+      return helpers.message('Поле заполнено некорректно');
+    }),
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
@@ -31,16 +46,5 @@ router.delete('/:_id', celebrate({
     _id: Joi.string().length(24).hex().required(),
   }),
 }), auth, deleteMovie);
-
-// router.put('/:cardId/likes', celebrate({
-//   params: Joi.object().keys({
-//     cardId: Joi.string().length(24).hex().required(),
-//   }),
-// }), auth, likeCard);
-// router.delete('/:cardId/likes', celebrate({
-//   params: Joi.object().keys({
-//     cardId: Joi.string().length(24).hex().required(),
-//   }),
-// }), auth, dislikeCard);
 
 module.exports = router;

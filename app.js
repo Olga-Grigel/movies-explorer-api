@@ -7,6 +7,7 @@ const { requestLogger } = require('./middlewares/request.log');
 const { errorLogger } = require('./middlewares/error.log');
 const routes = require('./routes');
 const errorHandler = require('./middlewares/error-handler');
+const { dbAdress } = require('./config');
 
 const { PORT = 3001 } = process.env;
 const app = express();
@@ -20,7 +21,7 @@ app.use(requestLogger); // подключаем логгер запросов
 
 app.use(routes);
 
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(dbAdress, {
   useNewUrlParser: true,
 });
 app.use(errorLogger); // подключаем логгер ошибок
