@@ -4,7 +4,7 @@ const validator = require('validator');
 const movieSchema = new mongoose.Schema(
   {
     id: {
-      type: String,
+      type: Number,
       required: true,
     },
     country: {

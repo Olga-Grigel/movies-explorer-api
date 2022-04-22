@@ -12,7 +12,7 @@ router.get('/', auth, getMovies);
 
 router.post('/', celebrate({
   body: Joi.object().keys({
-    id: Joi.string().required(),
+    id: Joi.number().required(),
     country: Joi.string().required(),
     director: Joi.string().required(),
     duration: Joi.number().required(),
