@@ -60,7 +60,7 @@ const deleteMovie = (request, response, next) => {
     .findById(_id)
     .orFail(new NotFoundError('Нет фильма по заданному ID'))
     .then((movie) => {
-      if (movie.owner.equals(request.user._id)) {
+      if (!movie.owner.equals(request.user._id)) {
         return next(new ForbiddenError('Нельзя удалить чужoй фильм'));
       }
       return movie.remove()
