@@ -24,7 +24,7 @@ router.post('/', celebrate({
       }
       return helpers.message('Поле заполнено некорректно');
     }),
-    trailerLink: Joi.string().required().custom((value, helpers) => {
+    trailerLink: Joi.string().custom((value, helpers) => {
       if (validator.isURL(value)) {
         return value;
       }
@@ -38,7 +38,7 @@ router.post('/', celebrate({
     }),
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
-    nameEN: Joi.string().required(),
+    nameEN: Joi.string(),
   }),
 }), auth, createMovie);
 
