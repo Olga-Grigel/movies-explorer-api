@@ -37,6 +37,7 @@ const movieSchema = new mongoose.Schema(
     trailerLink: {
       type: String,
       required: true,
+      default: null,
       validate: {
         validator(trailerLink) { return validator.isURL(trailerLink); },
       },
@@ -64,6 +65,7 @@ const movieSchema = new mongoose.Schema(
     nameEN: {
       type: String,
       required: true,
+      default: null,
     },
   },
   {
