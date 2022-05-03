@@ -13,7 +13,7 @@ const { PORT = 3001 } = process.env;
 const app = express();
 app.use(cookieParser());
 app.use(cors({
-  origin: 'https://diplom.frontend.nomoredomains.work', // домен указать когда сделаю домен по фронтенду
+  origin: 'http://localhost:3000', // домен указать когда сделаю домен по фронтенду
   credentials: true, // для того, чтобы CORS поддерживал кроссдоменные куки
 }));
 app.use(express.json());
