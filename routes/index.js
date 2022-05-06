@@ -4,6 +4,8 @@ const usersRouter = require('./users');
 const moviesRouter = require('./movies');
 const NotFoundError = require('../errors/not-found-error');
 const auth = require('../middlewares/auth');
+const { EmailPattern } = require('../config');
+const { PasswordPattern } = require('../config');
 const {
   createUser,
   login,
@@ -12,15 +14,15 @@ const {
 
 router.post('/signin', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
+    email: Joi.string().required().pattern(EmailPattern),
+    password: Joi.string().required().pattern(PasswordPattern),
   }),
 }), login);
 router.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).required().max(30),
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
+    email: Joi.string().required().pattern(EmailPattern),
+    password: Joi.string().required().pattern(PasswordPattern),
   }),
 }), createUser);
 router.post('/signout', signout);
